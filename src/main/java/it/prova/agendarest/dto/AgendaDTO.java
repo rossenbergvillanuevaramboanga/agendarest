@@ -1,6 +1,7 @@
 package it.prova.agendarest.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,16 @@ public class AgendaDTO {
 		this.dataOraInizio = dataOraInizio;
 		this.dataOraFine = dataOraFine;
 		this.utenteDTO = utenteDTO;
+	}
+	
+	public AgendaDTO(Long id, @NotBlank(message = "{descrizione.notblank}") String descrizione,
+			@NotNull(message = "{dataOraInizio.notnull}") LocalDateTime dataOraInizio,
+			@NotNull(message = "{dataOraFine.notnull}") LocalDateTime dataOraFine) {
+		super();
+		this.id = id;
+		this.descrizione = descrizione;
+		this.dataOraInizio = dataOraInizio;
+		this.dataOraFine = dataOraFine;
 	}
 
 	public Long getId() {
@@ -88,19 +99,28 @@ public class AgendaDTO {
 		return result;
 	}
 
-	public static AgendaDTO buildAgendaDTOFromModel(Agenda agendaModel) {
+	public static AgendaDTO buildAgendaDTOFromModel(Agenda agendaModel, boolean includeUtenti) {
 		AgendaDTO result = new AgendaDTO(agendaModel.getId(), agendaModel.getDescrizione(),
-				agendaModel.getDataOraInizio(), agendaModel.getDataOraFine(),
-				UtenteDTO.buildUtenteDTOFromModel(agendaModel.getUtente()));
+				agendaModel.getDataOraInizio(), agendaModel.getDataOraFine());
+		
+		if (includeUtenti)
+			result.setUtenteDTO(UtenteDTO.buildUtenteDTOFromModel(agendaModel.getUtente()));
 
 		return result;
 	}
 
-	public static Set<AgendaDTO> createAgendaDTOSetFromModelSet(Set<Agenda> modelSetInput) {
+	public static Set<AgendaDTO> createAgendaDTOSetFromModelSet(Set<Agenda> modelSetInput, boolean includeUtenti) {
 
 		return modelSetInput.stream().map(agendaEntity -> {
-			return AgendaDTO.buildAgendaDTOFromModel(agendaEntity);
+			return AgendaDTO.buildAgendaDTOFromModel(agendaEntity, includeUtenti);
 		}).collect(Collectors.toSet());
+	}
+
+	public static List<AgendaDTO> createAgendaDTOListFromModelList(List<Agenda> modelListInput, boolean includeUtenti) {
+		// TODO Auto-generated method stub
+		return modelListInput.stream().map(agendaEntity -> {
+			return AgendaDTO.buildAgendaDTOFromModel(agendaEntity, includeUtenti);
+		}).collect(Collectors.toList());
 	}
 
 }

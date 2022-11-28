@@ -53,10 +53,34 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 		Map<String, Object> body = new LinkedHashMap<>();
 		body.put("timestamp", LocalDateTime.now());
 		body.put("message", ex.getMessage());
-		body.put("status", HttpStatus.NOT_FOUND);
+		body.put("status", HttpStatus.FORBIDDEN);
 
 		return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
 	}
+	
+	//AgendaNotFoundException
+	@ExceptionHandler(AgendaNotFoundException.class)
+	public ResponseEntity<Object> handleAgendaNotFoundException(AgendaNotFoundException ex, WebRequest request) {
+
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
+	//IdNotNullForInsertException
+	public ResponseEntity<Object> handleIdNotNullForInsertException(IdNotNullForInsertException ex, WebRequest request) {
+
+		Map<String, Object> body = new LinkedHashMap<>();
+		body.put("timestamp", LocalDateTime.now());
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND);
+
+		return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+	}
+	
 
 }
 

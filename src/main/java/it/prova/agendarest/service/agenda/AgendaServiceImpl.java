@@ -36,6 +36,12 @@ public class AgendaServiceImpl implements AgendaService {
 		
 		return (List<Agenda>) repository.findAllWhereUtente(utenteLoggato);
 	}
+	
+	@Override
+	public List<Agenda> listAllByUtente(Utente utente) {
+		// TODO Auto-generated method stub
+		return (List<Agenda>) repository.findAllWhereUtente(utente);
+	}
 
 	@Override
 	public Agenda caricaSingoloElemento(Long id) throws PermessoNegatoException {
@@ -70,7 +76,7 @@ public class AgendaServiceImpl implements AgendaService {
 
 	@Override
 	@Transactional
-	public void inserisciNuovo(Agenda agendaInstance) {
+	public Agenda inserisciNuovo(Agenda agendaInstance) {
 
 		String username = SecurityContextHolder.getContext().getAuthentication().getName();
 		Utente utenteLoggato = utenteService.findByUsername(username);
@@ -81,7 +87,7 @@ public class AgendaServiceImpl implements AgendaService {
 
 		agendaInstance.setUtente(utenteLoggato);
 
-		repository.save(agendaInstance);
+		return repository.save(agendaInstance);
 	}
 
 	@Override
@@ -100,5 +106,9 @@ public class AgendaServiceImpl implements AgendaService {
 			throw new PermessoNegatoException("Non hai i permessi per rimuovere questo elemento!");
 		}
 	}
+
+	
+
+
 
 }
