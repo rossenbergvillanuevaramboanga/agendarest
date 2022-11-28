@@ -41,8 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.httpBasic().disable() // Disabling http basic
 				.cors() // Enabling cors
 				.and()
-
-				.authorizeHttpRequests().antMatchers("/api/auth/login").permitAll()
+				.authorizeHttpRequests()
+				.antMatchers("/api/auth/login").permitAll()
+				
+				//accesso al database
+				.antMatchers("/h2-console/**").permitAll()
+				
 				// tutti gli utenti autenticati possono richiedere le info
 				.antMatchers("/api/utente/userInfo").authenticated().antMatchers("/api/utente/**").hasRole("ADMIN")
 				.antMatchers("/**").hasAnyRole("ADMIN", "CLASSIC_USER")
@@ -59,6 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// Adding the JWT filter
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+		
+		//accesso al database
+		http.headers().frameOptions().disable();
 	}
 
 }
