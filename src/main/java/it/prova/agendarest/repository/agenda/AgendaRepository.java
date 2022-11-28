@@ -10,4 +10,6 @@ import it.prova.agendarest.model.Utente;
 public interface AgendaRepository extends CrudRepository<Agenda, Long> {
 	
 	List<Agenda> findByUtente(Utente utente);
+
+	List<Agenda> findAllWhereUtente(Utente utenteLoggato);
 }

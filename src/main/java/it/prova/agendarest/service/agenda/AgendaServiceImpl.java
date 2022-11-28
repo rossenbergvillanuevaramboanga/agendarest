@@ -34,7 +34,7 @@ public class AgendaServiceImpl implements AgendaService {
 			throw new UtenteLoggatoNotFoundException("Nessun utente loggato!");
 		}
 		
-		return (List<Agenda>) repository.findAll();
+		return (List<Agenda>) repository.findAllWhereUtente(utenteLoggato);
 	}
 
 	@Override
