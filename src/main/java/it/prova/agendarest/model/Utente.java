@@ -39,7 +39,6 @@ public class Utente {
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 
-	// se non uso questa annotation viene gestito come un intero
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato;
 
